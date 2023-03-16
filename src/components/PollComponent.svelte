@@ -7,7 +7,9 @@
 	export let pollId = ''
 </script>
 
-<div class="flex flex-col gap-4 p-4 rounded bg-[#020202] border-[1px] border-[#323333] text-white">
+<div
+	class="flex flex-col gap-4 p-4 rounded bg-base-content border-[1px] border-[#323333] text-base-100"
+>
 	<div class="flex justify-between items-center">
 		<div class="flex items-center gap-4">
 			<div class="avatar">

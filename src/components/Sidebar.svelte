@@ -6,7 +6,9 @@
 </script>
 
 <!-- 020202: sidebar background -->
-<div class="col-span-1 bg-[#020202] border-r-[1px] border-[#323333] text-white h-screen py-4 px-4">
+<div
+	class="col-span-1 bg-base-content border-r-[1px] border-[#323333] text-base-100 h-screen py-4 px-4"
+>
 	<div class="flex flex-col justify-between h-full ">
 		<div class="flex flex-col gap-6 h-full">
 			<div class="text-2xl font-semibold font-serif py-6 cursor-pointer">SocPoll</div>
