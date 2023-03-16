@@ -1,5 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
 generator client {
   provider      = "prisma-client-js"
   binaryTargets = ["native"]
@@ -23,7 +21,6 @@ model User {
   pollResponses PollResponses[]
 
   @@index([username], map: "uq_username")
-  @@map("user")
 }
 
 model Session {
@@ -31,10 +28,9 @@ model Session {
   user_id        String
   active_expires BigInt
   idle_expires   BigInt
-  user           User   @relation(references: [id], fields: [user_id], onDelete: Cascade)
+  user           User   @relation(fields: [user_id], references: [id], onDelete: Cascade)
 
   @@index([user_id])
-  @@map("session")
 }
 
 model Key {
@@ -42,10 +38,9 @@ model Key {
   hashed_password String?
   user_id         String
   primary         Boolean
-  user            User    @relation(references: [id], fields: [user_id], onDelete: Cascade)
+  user            User    @relation(fields: [user_id], references: [id], onDelete: Cascade)
 
   @@index([user_id])
-  @@map("key")
 }
 
 model ExtendedProfile {
