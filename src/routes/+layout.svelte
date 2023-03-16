@@ -6,7 +6,9 @@
 </script>
 
 {#if !data.user}
-	<slot />
+	<div class="bg-[#141414] h-screen">
+		<slot />
+	</div>
 {:else}
 	<div class="grid grid-cols-6">
 		<Sidebar />
