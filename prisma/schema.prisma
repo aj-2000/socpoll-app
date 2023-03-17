@@ -67,6 +67,7 @@ model Poll {
   author        User            @relation(fields: [authorId], references: [id])
   options       Option[]
   pollResponses PollResponses[]
+  numberOfResponses Int @default(0)
   endDate      DateTime
   @@index([authorId], map: "uq_authorId")
 }
@@ -74,6 +75,7 @@ model Poll {
 model Option {
   id          Int    @id @default(autoincrement())
   optionText String
+  numberOfVotes Int @default(0)
   pollId      Int
   poll        Poll   @relation(fields: [pollId], references: [id])
 
@@ -83,10 +85,10 @@ model Option {
 model PollResponses {
   id          Int    @id @default(autoincrement())
   pollId      Int
-  reponsderId String
-  reponsder   User   @relation(fields: [reponsderId], references: [id])
+  responderId String
+  responder   User   @relation(fields: [responderId], references: [id])
   poll        Poll   @relation(fields: [pollId], references: [id])
 
-  @@index([reponsderId], map: "uq_reponsderId")
+  @@index([responderId], map: "uq_reponsderId")
   @@index([pollId], map: "uq_pollId")
 }
