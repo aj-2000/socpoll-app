@@ -1,14 +1,18 @@
 <script lang="ts">
 	import Icon from '@iconify/svelte'
+	import moment from 'moment'
 	export let title = ''
 	export let endDate = ''
-	export let numberOfVotes = ''
+	export let numberOfVotes = 0
 	export let options = []
 	export let pollId = ''
+	export let comments = []
+	export let author = {}
+	$: daysAgo = moment(endDate).fromNow()
 </script>
 
 <div
-	class="flex flex-col gap-4 p-4 rounded bg-base-content border-[1px] border-[#323333] text-base-100"
+	class="flex flex-col gap-4 p-4 rounded bg-base-content border-[1px] border-[#323333] text-base-100 w-full"
 >
 	<div class="flex justify-between items-center">
 		<div class="flex items-center gap-4">
@@ -21,35 +25,30 @@
 				</div>
 			</div>
 
-			<span class="text-sm font-semibold">__aj2000__</span>
+			<span class="text-sm font-semibold">{author.username}</span>
 		</div>
 		<button><Icon class="text-3xl" icon="carbon:overflow-menu-horizontal" /></button>
 	</div>
 	<content class="flex flex-col gap-4">
-		<span> What programming language do you use during the coding interview? </span>
-		<section class="flex flex-col gap-2">
-			<div>
-				<input type="radio" id="html" name="fav_language" value="HTML" />
-				<label for="html">HTML</label><br />
-			</div>
-			<div>
-				<input type="radio" id="css" name="fav_language" value="CSS" />
-				<label for="css">CSS</label><br />
-			</div>
-			<div>
-				<input type="radio" id="javascript" name="fav_language" value="JavaScript" />
-				<label for="javascript">JavaScript</label>
-			</div>
-		</section>
+		<span> {title} </span>
+
+		<form class="flex flex-col gap-2">
+			{#each options as { id, optionText, pollId }, i}
+				<div>
+					<input type="radio" name={pollId} value={id} />
+					<label for="html">{optionText}</label><br />
+				</div>
+			{/each}
+		</form>
 	</content>
 	<section>
 		<div class="flex items-center justify-between">
 			<div class="flex gap-1 items-center text-sm">
-				<span> Total Votes: 24 </span>
+				<span> Total Votes: {numberOfVotes} </span>
 				<span>
 					<Icon icon="mdi:dot" />
 				</span>
-				<span> 5 Days Left </span>
+				<span> ends {daysAgo} </span>
 			</div>
 			<button class="text-base font-semibold"> Vote </button>
 		</div>

@@ -61,19 +61,19 @@ model Poll {
   id            Int             @id @default(autoincrement())
   title         String
   authorId      String
-  comments      Json
+  comments      Json?
   views         Int             @default(0)
   likes         Int             @default(0)
   author        User            @relation(fields: [authorId], references: [id])
   options       Option[]
-  PollResponses PollResponses[]
-
+  pollResponses PollResponses[]
+  endDate      DateTime
   @@index([authorId], map: "uq_authorId")
 }
 
 model Option {
   id          Int    @id @default(autoincrement())
-  option_text String
+  optionText String
   pollId      Int
   poll        Poll   @relation(fields: [pollId], references: [id])
 
