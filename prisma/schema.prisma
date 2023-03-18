@@ -58,26 +58,28 @@ model Avatar {
 }
 
 model Poll {
-  id            Int             @id @default(autoincrement())
-  title         String
-  authorId      String
-  comments      Json?
-  views         Int             @default(0)
-  likes         Int             @default(0)
-  author        User            @relation(fields: [authorId], references: [id])
-  options       Option[]
-  pollResponses PollResponses[]
-  numberOfResponses Int @default(0)
-  endDate      DateTime
+  id                Int             @id @default(autoincrement())
+  title             String
+  authorId          String
+  comments          Json?
+  views             Int             @default(0)
+  likes             Int             @default(0)
+  author            User            @relation(fields: [authorId], references: [id])
+  options           Option[]
+  pollResponses     PollResponses[]
+  numberOfResponses Int             @default(0)
+  endDate           DateTime
+
   @@index([authorId], map: "uq_authorId")
 }
 
 model Option {
-  id          Int    @id @default(autoincrement())
-  optionText String
-  numberOfVotes Int @default(0)
-  pollId      Int
-  poll        Poll   @relation(fields: [pollId], references: [id])
+  id            Int             @id @default(autoincrement())
+  optionText    String
+  numberOfVotes Int             @default(0)
+  pollId        Int
+  poll          Poll            @relation(fields: [pollId], references: [id])
+  pollResponses PollResponses[]
 
   @@index([pollId], map: "uq_pollId")
 }
@@ -88,7 +90,10 @@ model PollResponses {
   responderId String
   responder   User   @relation(fields: [responderId], references: [id])
   poll        Poll   @relation(fields: [pollId], references: [id])
+  optionId    Int // New field
+  option      Option @relation(fields: [optionId], references: [id]) // New relation
 
   @@index([responderId], map: "uq_reponsderId")
   @@index([pollId], map: "uq_pollId")
+  @@index([optionId], map: "uq_optionId") // New index
 }

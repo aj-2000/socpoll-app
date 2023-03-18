@@ -4,11 +4,14 @@
 	export let title = ''
 	export let endDate = ''
 	export let numberOfVotes = 0
+	export let userPollResponse = null
 	export let options = []
-	export let pollId = ''
+	export let id = ''
 	export let comments = []
 	export let author = {}
+	import { enhance } from '$app/forms'
 	$: daysAgo = moment(endDate).fromNow()
+	$: pollId = id
 </script>
 
 <div
@@ -29,28 +32,34 @@
 		</div>
 		<button><Icon class="text-3xl" icon="carbon:overflow-menu-horizontal" /></button>
 	</div>
-	<content class="flex flex-col gap-4">
-		<span> {title} </span>
+	<form method="POST" action="?/vote" use:enhance>
+		<input type="hidden" name="pollId" value={pollId} />
+		<content class="flex flex-col gap-4">
+			<span> {title} </span>
 
-		<form class="flex flex-col gap-2">
-			{#each options as { id, optionText, pollId }, i}
-				<div>
-					<input type="radio" name={pollId} value={id} />
+			<div class="flex flex-col gap-2">
+				{#each options as { id, optionText, pollId }, i}
+					<input
+						type="radio"
+						name="optionId"
+						value={id}
+						checked={userPollResponse?.optionId === id}
+					/>
 					<label for="html">{optionText}</label><br />
-				</div>
-			{/each}
-		</form>
-	</content>
-	<section>
-		<div class="flex items-center justify-between">
-			<div class="flex gap-1 items-center text-sm">
-				<span> Total Votes: {numberOfVotes} </span>
-				<span>
-					<Icon icon="mdi:dot" />
-				</span>
-				<span> ends {daysAgo} </span>
+				{/each}
 			</div>
-			<button class="text-base font-semibold"> Vote </button>
-		</div>
-	</section>
+		</content>
+		<section>
+			<div class="flex items-center justify-between">
+				<div class="flex gap-1 items-center text-sm">
+					<span> Total Votes: {numberOfVotes} </span>
+					<span>
+						<Icon icon="mdi:dot" />
+					</span>
+					<span> ends {daysAgo} </span>
+				</div>
+				<input class="text-base font-semibold" type="submit" value="Vote" />
+			</div>
+		</section>
+	</form>
 </div>

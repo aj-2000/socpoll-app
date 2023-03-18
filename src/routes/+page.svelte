@@ -1,18 +1,8 @@
 <script lang="ts">
-	import { Prisma } from '@prisma/client'
 	import PollComponent from '../components/PollComponent.svelte'
 	import type { PageData } from './$types'
 	export let data: PageData
 	$: ({ polls } = data)
-	type PollDetails = {
-		title?: string
-		endDate?: string
-		numberOfVotes?: number
-		options?: any[]
-		pollId?: string
-		comments?: Prisma.JsonValue
-		author?: {}
-	}
 </script>
 
 <main class="w-full h-full grid grid-cols-12">
