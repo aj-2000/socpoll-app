@@ -1,5 +1,5 @@
 import { prisma } from '$lib/server/prisma'
-import { error, json, redirect } from '@sveltejs/kit'
+import { error, redirect } from '@sveltejs/kit'
 import type { PageServerLoad, Actions } from './$types'
 
 export const load: PageServerLoad = async ({ locals }) => {
@@ -11,13 +11,19 @@ export const load: PageServerLoad = async ({ locals }) => {
 	const getAllPolls = async (userId) => {
 		const allPolls = await prisma.poll.findMany({
 			include: {
-				options: true,
-				pollResponses: {
+				options: {
 					include: {
-						option: true
-					},
-					where: {
-						responderId: userId
+						pollResponses: {
+							select: {
+								responderId: true
+							}
+						}
+					}
+				},
+				pollResponses: {
+					select: {
+						optionId: true,
+						responderId: true
 					}
 				},
 				author: {
@@ -27,21 +33,13 @@ export const load: PageServerLoad = async ({ locals }) => {
 				}
 			}
 		})
-
 		const pollsWithResponseCount = allPolls.map((poll) => {
-			const numberOfVotes = poll.pollResponses.reduce((total, response) => {
-				return total + response.option.numberOfVotes
-			}, 0)
-
-			const userPollResponse = poll.pollResponses.length > 0 ? poll.pollResponses[0] : null
-			console.log(userPollResponse)
 			return {
 				...poll,
-				numberOfVotes,
-				userPollResponse
+				numberOfVotes: poll.pollResponses.length,
+				userPollResponse: poll.pollResponses.find((response) => userId === response.responderId)
 			}
 		})
-
 		return pollsWithResponseCount || []
 	}
 
@@ -51,7 +49,7 @@ export const load: PageServerLoad = async ({ locals }) => {
 }
 
 export const actions = {
-	vote: async ({ cookies, request, locals }) => {
+	vote: async ({ request, locals }) => {
 		const data = await request.formData()
 		// Todo: any
 		let pollId, optionId
@@ -61,8 +59,6 @@ export const actions = {
 		} catch (err) {
 			return error(403, 'Invalid Poll Response Data')
 		}
-
-		console.log(pollId, optionId)
 
 		const userId = (await locals.validateUser()).user?.userId
 
@@ -126,6 +122,7 @@ export const actions = {
 			}
 		} else {
 			// Create a new response
+
 			await prisma.pollResponses.create({
 				data: {
 					poll: {
@@ -158,7 +155,7 @@ export const actions = {
 				}
 			})
 		}
-		console.log
+
 		return {
 			status: 200,
 			body: { message: 'Vote submitted successfully' }

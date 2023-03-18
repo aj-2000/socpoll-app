@@ -67,7 +67,6 @@ model Poll {
   author            User            @relation(fields: [authorId], references: [id])
   options           Option[]
   pollResponses     PollResponses[]
-  numberOfResponses Int             @default(0)
   endDate           DateTime
 
   @@index([authorId], map: "uq_authorId")
