@@ -14,7 +14,8 @@
 		"format": "prettier --plugin-search-dir . --write ."
 	},
 	"prisma": {
-		"seed": "ts-node prisma/seed.js"
+		"seed": "ts-node prisma/seed.js",
+		"reset": "ts-node prisma/reset.js"
 	},
 	"devDependencies": {
 		"@playwright/test": "^1.30.0",
@@ -31,6 +32,7 @@
 		"prettier": "^2.8.3",
 		"prettier-plugin-svelte": "^2.9.0",
 		"prisma": "^4.9.0",
+		"prisma-dbml-generator": "^0.10.0",
 		"rome": "^11.0.0",
 		"svelte": "^3.55.1",
 		"svelte-check": "^3.0.3",

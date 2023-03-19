@@ -1,0 +1,95 @@
+//// ------------------------------------------------------
+//// THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+//// ------------------------------------------------------
+
+Table User {
+  id String [pk]
+  name String [not null]
+  username String [unique, not null]
+  session Session [not null]
+  Key Key [not null]
+  profile ExtendedProfile
+  avatar Avatar
+  polls Poll [not null]
+  pollResponses PollResponses [not null]
+}
+
+Table Session {
+  id String [pk]
+  user_id String [not null]
+  active_expires BigInt [not null]
+  idle_expires BigInt [not null]
+  user User [not null]
+}
+
+Table Key {
+  id String [pk]
+  hashed_password String
+  user_id String [not null]
+  primary Boolean [not null]
+  user User [not null]
+}
+
+Table ExtendedProfile {
+  id Int [pk, increment]
+  userId String [unique, not null]
+  bio String
+  user User
+}
+
+Table Avatar {
+  id Int [pk, increment]
+  userId String [unique, not null]
+  photoUrl String
+  user User
+}
+
+Table Poll {
+  id Int [pk, increment]
+  title String [not null]
+  authorId String [not null]
+  comments Json
+  views Int [not null, default: 0]
+  likes Int [not null, default: 0]
+  author User [not null]
+  options Option [not null]
+  pollResponses PollResponses [not null]
+  endDate DateTime [not null]
+}
+
+Table Option {
+  id Int [pk, increment]
+  optionText String [not null]
+  numberOfVotes Int [not null, default: 0]
+  pollId Int [not null]
+  poll Poll [not null]
+  pollResponses PollResponses [not null]
+}
+
+Table PollResponses {
+  id Int [pk, increment]
+  pollId Int [not null]
+  responderId String [not null]
+  responder User [not null]
+  poll Poll [not null]
+  optionId Int [not null]
+  option Option [not null]
+}
+
+Ref: Session.user_id > User.id [delete: Cascade]
+
+Ref: Key.user_id > User.id [delete: Cascade]
+
+Ref: ExtendedProfile.userId - User.id
+
+Ref: Avatar.userId - User.id
+
+Ref: Poll.authorId > User.id
+
+Ref: Option.pollId > Poll.id
+
+Ref: PollResponses.responderId > User.id
+
+Ref: PollResponses.pollId > Poll.id
+
+Ref: PollResponses.optionId > Option.id

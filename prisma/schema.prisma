@@ -3,6 +3,10 @@ generator client {
   binaryTargets = ["native"]
 }
 
+generator dbml {
+  provider = "prisma-dbml-generator"
+}
+
 datasource db {
   provider     = "mysql"
   url          = env("DATABASE_URL")
@@ -58,16 +62,16 @@ model Avatar {
 }
 
 model Poll {
-  id                Int             @id @default(autoincrement())
-  title             String
-  authorId          String
-  comments          Json?
-  views             Int             @default(0)
-  likes             Int             @default(0)
-  author            User            @relation(fields: [authorId], references: [id])
-  options           Option[]
-  pollResponses     PollResponses[]
-  endDate           DateTime
+  id            Int             @id @default(autoincrement())
+  title         String
+  authorId      String
+  comments      Json?
+  views         Int             @default(0)
+  likes         Int             @default(0)
+  author        User            @relation(fields: [authorId], references: [id])
+  options       Option[]
+  pollResponses PollResponses[]
+  endDate       DateTime
 
   @@index([authorId], map: "uq_authorId")
 }

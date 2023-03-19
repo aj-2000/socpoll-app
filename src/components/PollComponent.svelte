@@ -12,10 +12,11 @@
 	import { enhance } from '$app/forms'
 	$: daysAgo = moment(endDate).fromNow()
 	$: pollId = id
+	$: totalVotes = numberOfVotes
 </script>
 
 <div
-	class="flex flex-col gap-4 p-4 rounded bg-base-content border-[1px] border-[#323333] text-base-100 w-full"
+	class="flex flex-col gap-4 p-4 rounded bg-base-content border-[1px] border-[#323333] text-base-100 w-10/12"
 >
 	<div class="flex justify-between items-center">
 		<div class="flex items-center gap-4">
@@ -32,27 +33,44 @@
 		</div>
 		<button><Icon class="text-3xl" icon="carbon:overflow-menu-horizontal" /></button>
 	</div>
-	<form method="POST" action="?/vote" use:enhance>
+	<form method="POST" class="flex flex-col gap-4" action="?/vote" use:enhance>
 		<input type="hidden" name="pollId" value={pollId} />
-		<content class="flex flex-col gap-4">
-			<span> {title} </span>
 
-			<div class="flex flex-col gap-2">
-				{#each options as { id, optionText, pollId }, i}
+		<span> {title} </span>
+
+		<div class="flex flex-col gap-4 justify-center form-control w-full max-w-xs">
+			{#each options as { id, optionText, pollId, numberOfVotes }, i}
+				<label class="flex items-center gap-2">
 					<input
 						type="radio"
+						class="form-radio h-5 w-5 text-blue-600"
 						name="optionId"
 						value={id}
 						checked={userPollResponse?.optionId === id}
 					/>
-					<label for="html">{optionText}</label><br />
-				{/each}
-			</div>
-		</content>
+					<div class="w-full">
+						<div class="flex justify-between items-center">
+							<span class="text-base-100 text-sm">{optionText} </span>
+							<span class="px-1 py-0.5 bg-blue-500 rounded-md"
+								>{totalVotes ? (numberOfVotes / totalVotes) * 100 : 0}%</span
+							>
+						</div>
+
+						<div class="w-full h-4 mt-1 bg-gray-200 rounded-full">
+							<div
+								class="h-full bg-blue-500 rounded-full"
+								style="width: {totalVotes ? (numberOfVotes / totalVotes) * 100 : 0}%;"
+							/>
+						</div>
+					</div>
+				</label>
+			{/each}
+		</div>
+
 		<section>
 			<div class="flex items-center justify-between">
 				<div class="flex gap-1 items-center text-sm">
-					<span> Total Votes: {numberOfVotes} </span>
+					<span> Total Votes: {totalVotes} </span>
 					<span>
 						<Icon icon="mdi:dot" />
 					</span>

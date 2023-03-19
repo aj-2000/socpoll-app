@@ -3,7 +3,7 @@ import { PrismaClient } from '@prisma/client'
 const prisma = new PrismaClient()
 
 async function createPolls() {
-	for (let i = 0; i < 30; i++) {
+	for (let i = 0; i < 3; i++) {
 		// Set the end date to 7 days after the current date
 		const endDate = new Date()
 		endDate.setDate(endDate.getDate() + 7)
@@ -12,7 +12,7 @@ async function createPolls() {
 			data: {
 				title: `Poll ${i + 1}`,
 				author: {
-					connect: { username: '__aj2000__' } // replace with your username
+					connect: { username: 'aj' } // replace with your username
 				},
 				options: {
 					create: [
