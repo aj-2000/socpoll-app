@@ -3,6 +3,7 @@
 	import { applyAction, enhance } from '$app/forms'
 	import { invalidateAll } from '$app/navigation'
 	import { page } from '$app/stores'
+	import Icon from '@iconify/svelte'
 </script>
 
 <!-- 020202: sidebar background -->
@@ -15,7 +16,11 @@
 			<SidebarMenuItem href="/" title="Home" icon="material-symbols:home" />
 			<SidebarMenuItem title="Explore" icon="material-symbols:explore" />
 			<SidebarMenuItem title="Messages" icon="jam:messages-f" />
-			<SidebarMenuItem title="Create" icon="system-uicons:create" />
+			<!-- The button to open modal -->
+			<label for="create-poll-modal" class="flex justify-start gap-3 btn-ghost">
+				<Icon class="text-3xl" icon="system-uicons:create" />
+				<span class="text-md font-normal">Create</span>
+			</label>
 			<SidebarMenuItem href="/profile" title="Profile" icon="gg:profile" />
 			{#if $page.data.user}
 				<form
