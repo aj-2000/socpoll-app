@@ -38,7 +38,7 @@
 
 		<span> {title} </span>
 
-		<div class="flex flex-col gap-4 justify-center form-control w-full max-w-xs">
+		<div class="flex flex-col gap-4 justify-center form-control w-full">
 			{#each options as { id, optionText, pollId, numberOfVotes }, i}
 				<label class="flex items-center gap-2">
 					<input
@@ -52,7 +52,9 @@
 						<div class="flex justify-between items-center">
 							<span class="text-base-100 text-sm">{optionText} </span>
 							<span class="px-1 py-0.5 bg-blue-500 rounded-md"
-								>{totalVotes ? (numberOfVotes / totalVotes) * 100 : 0}%</span
+								>{numberOfVotes} votes - {totalVotes
+									? (numberOfVotes / totalVotes) * 100
+									: 0}%</span
 							>
 						</div>
 
@@ -76,7 +78,11 @@
 					</span>
 					<span> ends {daysAgo} </span>
 				</div>
-				<input class="text-base font-semibold" type="submit" value="Vote" />
+				<input
+					class="text-base font-semibold"
+					type="submit"
+					value={userPollResponse ? 'Update Vote' : 'Vote'}
+				/>
 			</div>
 		</section>
 	</form>
