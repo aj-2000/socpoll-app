@@ -42,56 +42,67 @@
 
 		<div class="flex flex-col gap-4 justify-center form-control w-full">
 			{#each options as { id, optionText, pollId, numberOfVotes }, i}
-				<label class="flex items-center gap-2">
-					<input
-						type="radio"
-						class="form-radio h-5 w-5 text-blue-600"
-						name="optionId"
-						value={id}
-						checked={userPollResponse?.optionId === id}
+				<div class="w-full h-12 border border-[#323333] round relative px-1">
+					<div
+						class="absolute h-full flex items-center bg-green-500 top-0 left-0 bg-opacity-20"
+						style="width:  {totalVotes ? (numberOfVotes / totalVotes) * 100 : 0}%;"
 					/>
-					<div class="w-full">
-						<div class="flex justify-between items-center">
-							<span class="text-base-100 text-sm">{optionText} </span>
-							<span class="px-1 py-0.5 bg-blue-500 rounded-md"
-								>{numberOfVotes} votes - {totalVotes
-									? (numberOfVotes / totalVotes) * 100
-									: 0}%</span
-							>
-						</div>
+					<label class="absolute h-full flex  items-center gap-2 z-10 w-full top-0 left-0 p-2">
+						<input
+							type="radio"
+							class="h-6 w-6 border border-base-300"
+							name="optionId"
+							value={id}
+							checked={userPollResponse?.optionId === id}
+						/>
 
-						<div class="w-full h-4 mt-1 bg-gray-200 rounded-full">
-							<div
-								class="h-full bg-blue-500 rounded-full"
-								style="width: {totalVotes ? (numberOfVotes / totalVotes) * 100 : 0}%;"
-							/>
+						<div class="w-full flex justify-between items-center">
+							<span class="text-base-100 text-sm font-medium">{optionText} </span>
+							<div class="flex items-center  border border-base-300  rounded-full">
+								<span class="text-sm font-bold py-1 px-2 border-r border-base-300">
+									{numberOfVotes} votes</span
+								><span
+									class="text-sm font-bold py-1 px-2 bg-base-300 text-base-content rounded-r-full"
+								>
+									{Number(totalVotes ? (numberOfVotes / totalVotes) * 100 : 0).toFixed(2)}%</span
+								>
+							</div>
 						</div>
-					</div>
-				</label>
+					</label>
+				</div>
 			{/each}
-		</div>
 
-		<section>
-			<div class="flex items-center justify-between">
-				<div class="flex gap-1 items-center text-sm">
-					<span> Total Votes: {totalVotes} </span>
-					<span>
-						<Icon icon="mdi:dot" />
-					</span>
-					<span> ends {daysAgo} </span>
+			<section>
+				<div class="flex items-center justify-between">
+					<div class="flex gap-1 items-center text-sm">
+						<span> Total Votes: {totalVotes} </span>
+						<span>
+							<Icon icon="mdi:dot" />
+						</span>
+						<span> ends {daysAgo} </span>
+					</div>
+					<div class="flex gap-2 items-center">
+						<form
+							class={username !== author.username && 'hidden'}
+							method="POST"
+							action="?/delete"
+							use:enhance
+						>
+							<input type="hidden" name="pollId" value={pollId} />
+							<input
+								class="btn btn-sm border-red-500 hover:text-base-content hover:bg-red-500 text-red-500"
+								type="submit"
+								value="Delete poll"
+							/>
+						</form>
+						<input
+							class="btn btn-sm border-base-300 hover:text-base-content hover:bg-base-300"
+							type="submit"
+							value={userPollResponse ? 'Update vote' : 'Vote'}
+						/>
+					</div>
 				</div>
-				<div class="flex gap-2 items-center">
-					<form class={username !== author.username && 'hidden'} method="POST" action="?/delete">
-						<input type="hidden" name="pollId" value={pollId} />
-						<input class="text-base font-semibold text-error" type="submit" value="Delete poll" />
-					</form>
-					<input
-						class="text-base font-semibold"
-						type="submit"
-						value={userPollResponse ? 'Update vote' : 'Vote'}
-					/>
-				</div>
-			</div>
-		</section>
+			</section>
+		</div>
 	</form>
 </div>
