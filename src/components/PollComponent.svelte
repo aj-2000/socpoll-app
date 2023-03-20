@@ -64,7 +64,7 @@
 							<span class="text-base-100 text-sm font-medium">{optionText} </span>
 							<div class="flex items-center  border border-base-300  rounded-full">
 								<span class="text-sm font-bold py-1 px-2 border-r border-base-300">
-									{numberOfVotes} votes</span
+									{`${numberOfVotes} ${numberOfVotes > 1 ? 'Votes' : 'Vote'}`}</span
 								><span
 									class="text-sm font-bold py-1 px-2 bg-base-300 text-base-content rounded-r-full"
 								>
@@ -78,12 +78,15 @@
 
 			<section>
 				<div class="flex items-center justify-between">
-					<div class="flex gap-1 items-center text-sm">
-						<span> Total Votes: {totalVotes} </span>
+					<div class="flex gap-1 items-center text-sm ">
+						<span class="font-bold"> {`${totalVotes} ${totalVotes > 1 ? 'Votes' : 'Vote'}`} </span>
 						<span>
 							<Icon icon="mdi:dot" />
 						</span>
-						<span> ends {daysAgo} </span>
+						<span class="text-sm font-semibold text-base-300"
+							>{moment(endDate).isAfter(moment()) ? 'ends' : 'ended'}
+							{daysAgo}
+						</span>
 					</div>
 					<div class="flex gap-2 items-center">
 						<form
@@ -99,11 +102,13 @@
 								value="Delete poll"
 							/>
 						</form>
-						<input
-							class="btn btn-sm border-base-300 hover:text-base-content hover:bg-base-300"
-							type="submit"
-							value={userPollResponse ? 'Update vote' : 'Vote'}
-						/>
+						{#if moment(endDate).isAfter(moment())}
+							<input
+								class="btn btn-sm border-base-300 hover:text-base-content hover:bg-base-300"
+								type="submit"
+								value={userPollResponse ? 'Update vote' : 'Vote'}
+							/>
+						{/if}
 					</div>
 				</div>
 			</section>
