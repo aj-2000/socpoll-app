@@ -2,6 +2,7 @@
 	import Icon from '@iconify/svelte'
 	import moment from 'moment'
 	import { enhance } from '$app/forms'
+	import { faker } from '@faker-js/faker'
 	export let title = ''
 	export let endDate = ''
 	export let numberOfVotes = 0
@@ -24,10 +25,7 @@
 		<div class="flex items-center gap-4">
 			<div class="avatar">
 				<div class="w-10 rounded-full">
-					<img
-						alt="Ajay Sharma"
-						src="https://media.licdn.com/dms/image/D4D03AQHae7pP4xol3A/profile-displayphoto-shrink_800_800/0/1672334663749?e=1683763200&v=beta&t=Dn5onPWb_XllML7j57twBleDjdBpNR_THdSkGhsG8_M"
-					/>
+					<img alt="Ajay Sharma" src={faker.image.avatar()} />
 				</div>
 			</div>
 
