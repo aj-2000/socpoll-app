@@ -89,19 +89,17 @@
 						</span>
 					</div>
 					<div class="flex gap-2 items-center">
-						<form
-							class={username !== author.username && 'hidden'}
-							method="POST"
-							action="?/delete"
-							use:enhance
-						>
-							<input type="hidden" name="pollId" value={pollId} />
-							<input
-								class="btn btn-sm border-red-500 hover:text-base-content hover:bg-red-500 text-red-500"
-								type="submit"
-								value="Delete poll"
-							/>
-						</form>
+						{#if username === author.username}
+							<form method="POST" action="?/delete" use:enhance>
+								<input type="hidden" name="pollId" value={pollId} />
+								<input
+									class="btn btn-sm border-red-500 hover:text-base-content hover:bg-red-500 text-red-500"
+									type="submit"
+									value="Delete poll"
+								/>
+							</form>
+						{/if}
+
 						{#if moment(endDate).isAfter(moment())}
 							<input
 								class="btn btn-sm border-base-300 hover:text-base-content hover:bg-base-300"
