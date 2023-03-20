@@ -1,4 +1,5 @@
 <script>
+	import { enhance } from '$app/forms'
 	const MIN_OPTIONS = 2
 	const MAX_OPTIONS = 6
 
@@ -26,7 +27,7 @@
 	}
 </script>
 
-<form class="flex flex-col gap-6">
+<form class="flex flex-col gap-6" method="POST" action="?/create" use:enhance>
 	<hgroup class="flex flex-col items-center justify-center gap-2 text-center">
 		<h2 class="text-2xl font-semibold font-serif cursor-pointer">Create A Poll</h2>
 	</hgroup>

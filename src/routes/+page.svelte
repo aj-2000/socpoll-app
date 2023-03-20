@@ -8,7 +8,7 @@
 <main class="w-full h-full grid grid-cols-12">
 	<section class="flex flex-col gap-4 items-end col-span-7 overflow-auto py-8">
 		{#each polls as poll, i}
-			<PollComponent {...poll} />
+			<PollComponent username={data.user?.username} {...poll} />
 		{/each}
 	</section>
 	<section class="col-span-7 overflow-auto" />

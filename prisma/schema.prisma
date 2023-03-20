@@ -23,6 +23,8 @@ model User {
   avatar        Avatar?
   polls         Poll[]
   pollResponses PollResponses[]
+  createdAt     DateTime         @default(now())
+  updatedAt     DateTime         @updatedAt
 
   @@index([username], map: "uq_username")
 }
@@ -48,17 +50,21 @@ model Key {
 }
 
 model ExtendedProfile {
-  id     Int     @id @default(autoincrement())
-  userId String  @unique
-  bio    String?
-  user   User?   @relation(fields: [userId], references: [id])
+  id        Int      @id @default(autoincrement())
+  userId    String   @unique
+  bio       String?
+  user      User?    @relation(fields: [userId], references: [id])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model Avatar {
-  id       Int     @id @default(autoincrement())
-  userId   String  @unique
-  photoUrl String?
-  user     User?   @relation(fields: [userId], references: [id])
+  id        Int      @id @default(autoincrement())
+  userId    String   @unique
+  photoUrl  String?
+  user      User?    @relation(fields: [userId], references: [id])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model Poll {
@@ -71,6 +77,8 @@ model Poll {
   author        User            @relation(fields: [authorId], references: [id])
   options       Option[]
   pollResponses PollResponses[]
+  createdAt     DateTime        @default(now())
+  updatedAt     DateTime        @updatedAt
   endDate       DateTime
 
   @@index([authorId], map: "uq_authorId")
@@ -83,18 +91,22 @@ model Option {
   pollId        Int
   poll          Poll            @relation(fields: [pollId], references: [id])
   pollResponses PollResponses[]
+  createdAt     DateTime        @default(now())
+  updatedAt     DateTime        @updatedAt
 
   @@index([pollId], map: "uq_pollId")
 }
 
 model PollResponses {
-  id          Int    @id @default(autoincrement())
+  id          Int      @id @default(autoincrement())
   pollId      Int
   responderId String
-  responder   User   @relation(fields: [responderId], references: [id])
-  poll        Poll   @relation(fields: [pollId], references: [id])
+  responder   User     @relation(fields: [responderId], references: [id])
+  poll        Poll     @relation(fields: [pollId], references: [id])
   optionId    Int // New field
-  option      Option @relation(fields: [optionId], references: [id]) // New relation
+  option      Option   @relation(fields: [optionId], references: [id]) // New relation
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
 
   @@index([responderId], map: "uq_reponsderId")
   @@index([pollId], map: "uq_pollId")

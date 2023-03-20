@@ -1,6 +1,7 @@
 <script lang="ts">
 	import Icon from '@iconify/svelte'
 	import moment from 'moment'
+	import { enhance } from '$app/forms'
 	export let title = ''
 	export let endDate = ''
 	export let numberOfVotes = 0
@@ -8,8 +9,9 @@
 	export let options = []
 	export let id = ''
 	export let comments = []
-	export let author = {}
-	import { enhance } from '$app/forms'
+	export let author
+	export let username
+
 	$: daysAgo = moment(endDate).fromNow()
 	$: pollId = id
 	$: totalVotes = numberOfVotes
@@ -78,11 +80,17 @@
 					</span>
 					<span> ends {daysAgo} </span>
 				</div>
-				<input
-					class="text-base font-semibold"
-					type="submit"
-					value={userPollResponse ? 'Update Vote' : 'Vote'}
-				/>
+				<div class="flex gap-2 items-center">
+					<form class={username !== author.username && 'hidden'} method="POST" action="?/delete">
+						<input type="hidden" name="pollId" value={pollId} />
+						<input class="text-base font-semibold text-error" type="submit" value="Delete poll" />
+					</form>
+					<input
+						class="text-base font-semibold"
+						type="submit"
+						value={userPollResponse ? 'Update vote' : 'Vote'}
+					/>
+				</div>
 			</div>
 		</section>
 	</form>
