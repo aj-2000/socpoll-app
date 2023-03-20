@@ -32,16 +32,16 @@
 		<h2 class="text-2xl font-semibold font-serif cursor-pointer">Create A Poll</h2>
 	</hgroup>
 	<section class="flex flex-col gap-4">
-		<div class="form-control w-full">
+		<div class="w-full">
 			<label for="title" class="label">
-				<span class="label-text text-base-100">Poll Title</span>
+				<span class="label-text text-base-100">Poll Description</span>
 			</label>
-			<input
-				class="input input-sm w-full bg-base-content border-base-300"
-				type="text"
+			<textarea
+				class="w-full bg-base-content border border-base-300 p-2"
 				id="title"
 				name="title"
 				required
+				rows="3"
 				placeholder="What's your favorite ..."
 			/>
 		</div>

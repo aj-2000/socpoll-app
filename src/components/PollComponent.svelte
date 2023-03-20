@@ -38,7 +38,11 @@
 	<form method="POST" class="flex flex-col gap-4" action="?/vote" use:enhance>
 		<input type="hidden" name="pollId" value={pollId} />
 
-		<span> {title} </span>
+		<div
+			class="prose border bg-base-300  border-[#323333] p-2 rounded-md max-h-[400px] overflow-auto"
+		>
+			{@html title}
+		</div>
 
 		<div class="flex flex-col gap-4 justify-center form-control w-full">
 			{#each options as { id, optionText, pollId, numberOfVotes }, i}

@@ -1,7 +1,7 @@
 import { prisma } from '$lib/server/prisma'
 import { error, redirect } from '@sveltejs/kit'
 import type { PageServerLoad, Actions } from './$types'
-
+import { compile } from 'mdsvex'
 export const load: PageServerLoad = async ({ locals }) => {
 	const { session, user } = await locals.validateUser()
 	if (!session) {
@@ -174,12 +174,12 @@ export const actions = {
 			return { status: 404, body: { message: 'User not found' } }
 		}
 		const data = await request.formData()
-		const title = data.get('title')
+		const compiltedTitle = await compile(data.get('title'))
 		const endDate = data.get('endDate')
 		const options = data.getAll('options[]')
 		const poll = await prisma.poll.create({
 			data: {
-				title,
+				title: compiltedTitle?.code || 'Untitled',
 				endDate: new Date(endDate),
 				author: { connect: { id: userId } },
 				options: {
