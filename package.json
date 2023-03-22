@@ -56,6 +56,7 @@
 		"daisyui": "^2.51.4",
 		"lucia-auth": "^0.6.0",
 		"moment": "^2.29.4",
+		"sveltekit-superforms": "^0.6.1",
 		"zod": "^3.21.4"
 	}
 }

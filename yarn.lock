@@ -4477,6 +4477,7 @@ __metadata:
     rome: "npm:^11.0.0"
     svelte: "npm:^3.55.1"
     svelte-check: "npm:^3.0.3"
+    sveltekit-superforms: "npm:^0.6.1"
     tailwindcss: "npm:^3.2.7"
     ts-node: "npm:^10.9.1"
     tslib: "npm:^2.5.0"
@@ -4749,6 +4750,17 @@ __metadata:
   version: 3.57.0
   resolution: "svelte@npm:3.57.0"
   checksum: b2ffbd998af34a51089d3c852f8306afa71aeb925a57337dd90d643b0c90206e688db0b140afba47833bd14bb57fccfd1c19ba83acd05a78c424c2f148526082
+  languageName: node
+  linkType: hard
+
+"sveltekit-superforms@npm:^0.6.1":
+  version: 0.6.1
+  resolution: "sveltekit-superforms@npm:0.6.1"
+  peerDependencies:
+    "@sveltejs/kit": 1.x
+    svelte: 3.x
+    zod: 3.x
+  checksum: 0385f7bd4f05a229ffdf19faab8ad3bfd98b09984cf557cad7986bcb083f2bb415c45a360694e53af2f35e9c474fb5406af4bdcc381412b8159a49d470290812
   languageName: node
   linkType: hard
 

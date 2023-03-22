@@ -14,17 +14,18 @@ datasource db {
 }
 
 model User {
-  id            String           @id @unique
-  name          String
-  username      String           @unique
-  session       Session[]
-  Key           Key[]
-  profile       ExtendedProfile?
-  avatar        Avatar?
+  id       String    @id @unique
+  name     String
+  username String    @unique
+  session  Session[]
+  Key      Key[]
+  photoUrl String?   @db.VarChar(256)
+  bio      String?   @db.VarChar(150)
+
   polls         Poll[]
   pollResponses PollResponses[]
-  createdAt     DateTime         @default(now())
-  updatedAt     DateTime         @updatedAt
+  createdAt     DateTime        @default(now())
+  updatedAt     DateTime        @updatedAt
 
   @@index([username], map: "uq_username")
 }
@@ -49,27 +50,9 @@ model Key {
   @@index([user_id])
 }
 
-model ExtendedProfile {
-  id        Int      @id @default(autoincrement())
-  userId    String   @unique
-  bio       String?
-  user      User?    @relation(fields: [userId], references: [id])
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-}
-
-model Avatar {
-  id        Int      @id @default(autoincrement())
-  userId    String   @unique
-  photoUrl  String?
-  user      User?    @relation(fields: [userId], references: [id])
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-}
-
 model Poll {
   id            Int             @id @default(autoincrement())
-  title         String  @db.VarChar(5000)
+  title         String          @db.VarChar(5000)
   authorId      String
   comments      Json?
   views         Int             @default(0)

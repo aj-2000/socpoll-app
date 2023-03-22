@@ -8,8 +8,8 @@ Table User {
   username String [unique, not null]
   session Session [not null]
   Key Key [not null]
-  profile ExtendedProfile
-  avatar Avatar
+  photoUrl String
+  bio String
   polls Poll [not null]
   pollResponses PollResponses [not null]
   createdAt DateTime [default: `now()`, not null]
@@ -30,24 +30,6 @@ Table Key {
   user_id String [not null]
   primary Boolean [not null]
   user User [not null]
-}
-
-Table ExtendedProfile {
-  id Int [pk, increment]
-  userId String [unique, not null]
-  bio String
-  user User
-  createdAt DateTime [default: `now()`, not null]
-  updatedAt DateTime [not null]
-}
-
-Table Avatar {
-  id Int [pk, increment]
-  userId String [unique, not null]
-  photoUrl String
-  user User
-  createdAt DateTime [default: `now()`, not null]
-  updatedAt DateTime [not null]
 }
 
 Table Poll {
@@ -91,10 +73,6 @@ Table PollResponses {
 Ref: Session.user_id > User.id [delete: Cascade]
 
 Ref: Key.user_id > User.id [delete: Cascade]
-
-Ref: ExtendedProfile.userId - User.id
-
-Ref: Avatar.userId - User.id
 
 Ref: Poll.authorId > User.id
 
