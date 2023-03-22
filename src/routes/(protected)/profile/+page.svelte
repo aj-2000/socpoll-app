@@ -1,5 +1,7 @@
 <script>
 	import Icon from '@iconify/svelte'
+
+	export let data
 </script>
 
 <main class="text-white grid grid-cols-12 py-8">
@@ -17,7 +19,7 @@
 		<div class="flex flex-col gap-4">
 			<div class="flex items-center gap-6">
 				<span class="text-xl">
-					{'__aj2000__'}
+					{data.userProfile?.username}
 				</span>
 				<div>
 					<button class="btn">Edit Profile</button>
@@ -38,12 +40,10 @@
 				</span>
 			</div>
 			<div>
-				<span>Ajay Sharma</span>
-				<pre class="text-sm max-w-xs">
-Seeker
-Photography account: @_ajay.clicks_
-ajaysharma.dev
-                </pre>
+				<span>{data.userProfile?.name}</span>
+				<p class="text-sm max-w-xs">
+					{data.userProfile?.bio}
+				</p>
 			</div>
 		</div>
 	</div>

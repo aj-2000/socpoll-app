@@ -7,35 +7,38 @@ export const load = async (event) => {
 	if (!session) {
 		throw redirect(302, '/login')
 	}
-	const form = await superValidate(event, editProfileFormDataSchema)
 	return {
-		form
+		userProfile: await prisma.user.findUnique({
+			where: {
+				id: user.userId
+			},
+			select: {
+				name: true,
+				username: true,
+				bio: true
+			}
+		})
 	}
 }
 export const actions = {
-	updateProfile: async (event) => {
-		console.log('run')
-		const formObj = await superValidate(event, editProfileFormDataSchema)
-		console.log(formObj)
-		if (!formObj.valid) {
-			return fail(400, {
-				formObj
-			})
-		}
-		const form = formObj.data
-		const userId = (await event.locals.validateUser()).user?.userId
-		if (userId) return fail(400, { message: 'user not found' })
+	default: async ({ request, locals }) => {
+		const data = await request.formData()
+
+		const userId = (await locals.validateUser()).user?.userId
+		if (!userId) return fail(400, { message: 'user not found' })
+		console.log(data)
 		const updatedUser = await prisma.user.update({
 			where: { id: userId }, // Replace <USER_ID> with the actual ID of the user you want to update
 			data: {
-				username: form.username, // Replace <NEW_USERNAME> with the new username value
-				name: form.name, // Replace <NEW_NAME> with the new name value
-				bio: form.bio // Replace <NEW_BIO> with the new bio value
+				username: data.get('username'), // Replace <NEW_USERNAME> with the new username value
+				name: data.get('name'), // Replace <NEW_NAME> with the new name value
+				bio: data.get('bio') // Replace <NEW_BIO> with the new bio value
 			}
 		})
-
+		console.log(updatedUser)
 		return {
-			form: formObj
+			status: 204,
+			updatedUser: updatedUser
 		}
 	}
 }

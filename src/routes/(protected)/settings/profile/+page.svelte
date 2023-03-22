@@ -1,21 +1,25 @@
 <script lang="ts">
-	import { superForm } from 'sveltekit-superforms/client'
-	import { faker } from '@faker-js/faker'
-	import SuperDebug from 'sveltekit-superforms/client/SuperDebug.svelte'
+	import { enhance, applyAction } from '$app/forms'
 	import type { PageData } from './$types'
+	import { invalidateAll } from '$app/navigation'
 	export let data: PageData
-	const { form, errors, enhance, constraints } = superForm(data.form, {
-		taintedMessage: 'Are you sure you want to leave this page?',
-		validators: {
-			name: (name) => {
-				return 'Works'
-			}
-		}
-	})
+	let bio = data.userProfile.bio
+
+	import { faker } from '@faker-js/faker'
 </script>
 
 <!-- <SuperDebug data={$form} /> -->
-<form class="flex flex-col gap-6" method="POST" action="?/updateProfile" use:enhance>
+<form
+	class="flex flex-col gap-6"
+	method="POST"
+	use:enhance={() => {
+		;``
+		return async ({ result }) => {
+			invalidateAll()
+			await applyAction(result)
+		}
+	}}
+>
 	<div class="flex">
 		<div class="flex justify-end items-start ">
 			<span class="px-6 py-1 font-bold w-[125px]"
@@ -24,7 +28,7 @@
 		</div>
 		<div class="w-full flex flex-col">
 			<div class="w-full">
-				<span class="text-sm">__aj2000__</span>
+				<span class="text-sm">{data.user?.username}</span>
 			</div>
 			<div class="w-full">
 				<span class="text-sm">Change profile photo</span>
@@ -43,9 +47,9 @@
 					type="text"
 					id="name"
 					name="name"
-					bind:value={$form.name}
+					value={data.userProfile?.name}
 					placeholder="Ajay Sharma"
-					{...$constraints.name}
+					required
 				/>
 			</div>
 			<div class="text-xs text-base-300">
@@ -65,9 +69,9 @@
 					type="text"
 					id="username"
 					name="username"
+					value={data.userProfile?.username}
 					placeholder="__aj2000__"
-					bind:value={$form.username}
-					{...$constraints.username}
+					required
 				/>
 			</div>
 		</div>
@@ -84,13 +88,12 @@
 					name="bio"
 					required
 					rows="2"
-					bind:value={$form.bio}
-					{...$constraints.bio}
+					bind:value={bio}
 					placeholder="Seeker
 Photography account: @_ajay.clicks_"
 				/>
 			</div>
-			<div class="text-xs font-bold text-base-300">42 / 150</div>
+			<div class="text-xs font-bold text-base-300">{bio.length} / 256</div>
 		</div>
 	</div>
 	<div class="flex w-full">

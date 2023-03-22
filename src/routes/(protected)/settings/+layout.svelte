@@ -15,7 +15,7 @@
 			</div>
 		</div>
 
-		<div class="col-span-9 px-20 py-8">
+		<div class="col-span-9 px-20 py-8 overflow-auto">
 			<slot />
 		</div>
 	</div>

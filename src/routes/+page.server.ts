@@ -44,7 +44,6 @@ export const load: PageServerLoad = async ({ locals }) => {
 
 		return pollsWithResponseCount || []
 	}
-
 	return {
 		polls: await getAllPolls(user.userId)
 	}

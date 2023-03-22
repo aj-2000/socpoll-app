@@ -20,7 +20,7 @@ model User {
   session  Session[]
   Key      Key[]
   photoUrl String?   @db.VarChar(256)
-  bio      String?   @db.VarChar(150)
+  bio      String?   @db.VarChar(256)
 
   polls         Poll[]
   pollResponses PollResponses[]
