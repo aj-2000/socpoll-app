@@ -4,7 +4,16 @@
 	import { invalidateAll } from '$app/navigation'
 	export let data: PageData
 	let bio = data.userProfile.bio || ''
-
+	let fileInput
+	let files
+	let avatar
+	function getBase64(image) {
+		const reader = new FileReader()
+		reader.readAsDataURL(image)
+		reader.onload = (e) => {
+			avatar = e.target.result
+		}
+	}
 	import { faker } from '@faker-js/faker'
 </script>
 
@@ -31,7 +40,15 @@
 				<span class="text-sm">{data.user?.username}</span>
 			</div>
 			<div class="w-full">
-				<span class="text-sm">Change profile photo</span>
+				<input
+					type="file"
+					class="hidden"
+					name="photo"
+					id="file"
+					accept=".png,.jpg"
+					bind:this={fileInput}
+				/>
+				<button class="upload-btn" on:click={() => fileInput.click()}>Upload</button>
 			</div>
 		</div>
 	</div>

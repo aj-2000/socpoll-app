@@ -39,5 +39,9 @@ export const actions = {
 			status: 204,
 			updatedUser: updatedUser
 		}
+	},
+	upload: async ({ request, locals }) => {
+		const form = await request.formData()
+		console.log(form)
 	}
 }
