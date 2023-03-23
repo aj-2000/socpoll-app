@@ -2,11 +2,10 @@ import { editProfileFormDataSchema } from '$lib/zodSchemas'
 import { superValidate } from 'sveltekit-superforms/server'
 import { fail, redirect, error } from '@sveltejs/kit'
 import { prisma } from '$lib/server/prisma'
+import { auth } from '$lib/server/lucia'
 export const load = async (event) => {
-	const { session, user } = await event.locals.validateUser()
-	if (!session) {
-		throw redirect(302, '/login')
-	}
+	const { user } = await event.locals.validateUser()
+
 	return {
 		userProfile: await prisma.user.findUnique({
 			where: {
@@ -24,18 +23,18 @@ export const actions = {
 	default: async ({ request, locals }) => {
 		const data = await request.formData()
 
-		const userId = (await locals.validateUser()).user?.userId
-		if (!userId) return fail(400, { message: 'user not found' })
+		const user = (await locals.validateUser()).user
+		if (!user) return fail(400, { message: 'user not found' })
 		console.log(data)
 		const updatedUser = await prisma.user.update({
-			where: { id: userId }, // Replace <USER_ID> with the actual ID of the user you want to update
+			where: { id: user.userId }, // Replace <USER_ID> with the actual ID of the user you want to update
 			data: {
-				username: data.get('username'), // Replace <NEW_USERNAME> with the new username value
+				// username: data.get('username'), // Replace <NEW_USERNAME> with the new username value
 				name: data.get('name'), // Replace <NEW_NAME> with the new name value
 				bio: data.get('bio') // Replace <NEW_BIO> with the new bio value
 			}
 		})
-		console.log(updatedUser)
+
 		return {
 			status: 204,
 			updatedUser: updatedUser

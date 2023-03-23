@@ -65,13 +65,14 @@
 		<div class="w-full flex flex-col gap-3">
 			<div class="w-full">
 				<input
-					class="input input-sm w-full bg-base-content border-base-300"
+					class="input input-sm w-full bg-base-content border-base-300 disabled:bg-gray-600 disabled:text-gray-400"
 					type="text"
 					id="username"
 					name="username"
 					value={data.userProfile?.username}
 					placeholder="__aj2000__"
 					required
+					disabled
 				/>
 			</div>
 		</div>
@@ -86,7 +87,6 @@
 					class="w-full bg-base-content border border-base-300 p-2"
 					id="bio"
 					name="bio"
-					required
 					rows="2"
 					bind:value={bio}
 					placeholder="Seeker
