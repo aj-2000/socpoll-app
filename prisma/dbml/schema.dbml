@@ -9,7 +9,7 @@ Table User {
   session Session [not null]
   Key Key [not null]
   photoUrl String
-  bio String
+  bio String [default: '']
   polls Poll [not null]
   pollResponses PollResponses [not null]
   createdAt DateTime [default: `now()`, not null]

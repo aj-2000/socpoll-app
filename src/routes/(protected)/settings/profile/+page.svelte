@@ -3,7 +3,7 @@
 	import type { PageData } from './$types'
 	import { invalidateAll } from '$app/navigation'
 	export let data: PageData
-	let bio = data.userProfile.bio
+	let bio = data.userProfile.bio || ''
 
 	import { faker } from '@faker-js/faker'
 </script>
