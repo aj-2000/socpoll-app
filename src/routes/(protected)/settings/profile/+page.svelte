@@ -21,6 +21,7 @@
 <form
 	class="flex flex-col gap-6"
 	method="POST"
+	action="?/update"
 	use:enhance={() => {
 		;``
 		return async ({ result }) => {

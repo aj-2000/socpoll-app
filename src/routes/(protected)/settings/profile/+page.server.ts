@@ -20,7 +20,7 @@ export const load = async (event) => {
 	}
 }
 export const actions = {
-	default: async ({ request, locals }) => {
+	update: async ({ request, locals }) => {
 		const data = await request.formData()
 
 		const user = (await locals.validateUser()).user

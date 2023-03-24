@@ -11,8 +11,6 @@ const config = {
 	// for more information about preprocessors
 	preprocess: [vitePreprocess(), mdsvex(mdsvexConfig)],
 
-	extensions: ['.svelte'],
-
 	kit: {
 		adapter: adapter()
 	}
