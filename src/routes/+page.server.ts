@@ -217,5 +217,58 @@ export const actions = {
 		await prisma.option.deleteMany({ where: { id: { in: optionIds } } })
 		const deletedPoll = await prisma.poll.delete({ where: { id: pollId } })
 		return deletedPoll
+	},
+	follow: async ({ request, locals }) => {
+		const followerId = (await locals.validateUser()).user?.userId
+		if (!followerId) {
+			throw error(404, 'User not found')
+		}
+		const data = await request.formData()
+		const followingId = data.get('followingId')
+		const following = await prisma.user.findUnique({
+			where: {
+				id: followingId
+			}
+		})
+		if (!following) {
+			throw error(404, 'User not found')
+		}
+
+		const follow: any[] = await prisma.$queryRaw`SELECT *
+												FROM Follow 
+												WHERE followerId = ${followerId}
+												AND followingId = ${followingId};`
+
+		console.log(follow)
+		if (follow.length == 1 && follow[0]) {
+			// follow already exists, so delete it to unfollow
+			await prisma.follow.delete({
+				where: {
+					id: follow[0].id
+				}
+			})
+
+			return {
+				status: 200,
+				body: {
+					message: 'Unfollowed user'
+				}
+			}
+		} else {
+			// follow doesn't exist, so create it to follow
+			await prisma.follow.create({
+				data: {
+					followerId,
+					followingId
+				}
+			})
+
+			return {
+				status: 200,
+				body: {
+					message: 'Followed user'
+				}
+			}
+		}
 	}
 } satisfies Actions

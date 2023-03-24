@@ -26,6 +26,8 @@ model User {
   pollResponses PollResponses[]
   createdAt     DateTime        @default(now())
   updatedAt     DateTime        @updatedAt
+  followers     Follow[]        @relation("Following")
+  following     Follow[]        @relation("Followers")
 
   @@index([username], map: "uq_username")
 }
@@ -94,4 +96,17 @@ model PollResponses {
   @@index([responderId], map: "uq_reponsderId")
   @@index([pollId], map: "uq_pollId")
   @@index([optionId], map: "uq_optionId") // New index
+}
+
+model Follow {
+  id          Int      @id @default(autoincrement())
+  followerId  String
+  followingId String
+  follower    User     @relation("Followers", fields: [followerId], references: [id])
+  following   User     @relation("Following", fields: [followingId], references: [id])
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([followerId], map: "uq_followerId")
+  @@index([followingId], map: "uq_followingId")
 }

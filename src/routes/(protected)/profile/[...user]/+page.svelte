@@ -1,6 +1,6 @@
 <script>
 	import Icon from '@iconify/svelte'
-
+	import { enhance, applyAction } from '$app/forms'
 	export let data
 </script>
 
@@ -19,11 +19,28 @@
 		<div class="flex flex-col gap-4">
 			<div class="flex items-center gap-6">
 				<span class="text-xl">
-					{data.userProfile?.username}
+					{data?.userProfile?.username}
 				</span>
-				<div>
-					<button class="btn">Edit Profile</button>
-				</div>
+
+				{#if data.user.userId !== data.userProfile.id}
+					<form method="POST" action="/?/follow" use:enhance>
+						<input type="hidden" name="followingId" id="followingId" value={data.userProfile.id} />
+						<input
+							class="btn btn-sm border-[#323333] hover:text-base-content hover:bg-base-300"
+							type="submit"
+							value={data.following ? 'Unfollow' : 'Follow'}
+						/>
+					</form>
+				{/if}
+				{#if data.user.userId === data.userProfile.id}
+					<div>
+						<a
+							href="/settings/profile"
+							class="btn btn-sm border-[#323333] hover:text-base-content hover:bg-base-300"
+							>Edit Profile</a
+						>
+					</div>
+				{/if}
 				<div>
 					<Icon class="text-3xl" icon="material-symbols:settings" />
 				</div>
@@ -40,9 +57,9 @@
 				</span>
 			</div>
 			<div>
-				<span>{data.userProfile?.name}</span>
+				<span>{data?.userProfile?.name}</span>
 				<p class="text-sm max-w-xs">
-					{data.userProfile?.bio}
+					{data?.userProfile?.bio}
 				</p>
 			</div>
 		</div>

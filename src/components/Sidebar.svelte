@@ -2,7 +2,9 @@
 	import SidebarMenuItem from './SidebarMenuItem.svelte'
 	import { applyAction, enhance } from '$app/forms'
 	import { invalidateAll } from '$app/navigation'
-	// import { page } from '$app/stores'
+	import { page } from '$app/stores'
+	export let username = ''
+
 	import Icon from '@iconify/svelte'
 </script>
 
@@ -21,7 +23,7 @@
 				<Icon class="text-3xl" icon="system-uicons:create" />
 				<span class="text-md font-normal">Create</span>
 			</label>
-			<SidebarMenuItem href="/profile" title="Profile" icon="gg:profile" />
+			<SidebarMenuItem href="/profile/{username}" title="Profile" icon="gg:profile" />
 		</div>
 		<!-- More Menu -->
 		<div class="dropdown dropdown-top ">
@@ -37,11 +39,11 @@
 			>
 				<li class="flex flex-col">
 					<div class="flex justify-between items-center">
-						<a href="settings/profile">Settings</a>
+						<a href="/settings/profile">Settings</a>
 						<Icon class="text-xl" icon="material-symbols:settings" />
 					</div>
 					<div class="flex justify-between items-center border-t-[1px] border-[#323333]">
-						<a href="settings/profile">Appearnce</a>
+						<a href="/settings/profile">Appearnce</a>
 						<Icon class="text-xl" icon="gridicons:themes" />
 					</div>
 				</li>

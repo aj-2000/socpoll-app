@@ -12,7 +12,7 @@
 	</div>
 {:else}
 	<div class="w-full grid grid-cols-6">
-		<Sidebar />
+		<Sidebar username={data.user.username} />
 		<div class="col-span-5 bg-[#141414] h-screen">
 			<slot />
 		</div>
