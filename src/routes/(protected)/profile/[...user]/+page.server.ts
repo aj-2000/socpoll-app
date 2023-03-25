@@ -1,7 +1,6 @@
 import { fail, redirect, error } from '@sveltejs/kit'
 import { prisma } from '$lib/server/prisma'
 export const load = async (event) => {
-	console.log(event.params)
 	const { session, user } = await event.locals.validateUser()
 	const userProfile = await prisma.user.findUnique({
 		where: {
@@ -11,7 +10,56 @@ export const load = async (event) => {
 			id: true,
 			name: true,
 			username: true,
-			bio: true
+			bio: true,
+			polls: {
+				orderBy: { createdAt: 'desc' },
+				include: {
+					options: {
+						include: {
+							pollResponses: {
+								select: {
+									responderId: true
+								}
+							}
+						}
+					},
+					pollResponses: {
+						select: {
+							optionId: true,
+							responderId: true
+						}
+					},
+					author: {
+						select: {
+							username: true
+						}
+					}
+				}
+			},
+			followers: {
+				select: {
+					follower: {
+						select: {
+							id: true,
+							name: true,
+							username: true,
+							photoUrl: true
+						}
+					}
+				}
+			},
+			following: {
+				select: {
+					following: {
+						select: {
+							id: true,
+							name: true,
+							username: true,
+							photoUrl: true
+						}
+					}
+				}
+			}
 		}
 	})
 
@@ -23,6 +71,7 @@ export const load = async (event) => {
 	if (!userProfile) {
 		return fail(404, { message: 'USER NOT FOUND' })
 	}
+	console.log(userProfile.polls)
 	return {
 		userProfile,
 		following: follow.length !== 0

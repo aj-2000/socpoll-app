@@ -2,6 +2,8 @@
 	import Icon from '@iconify/svelte'
 	import { enhance, applyAction } from '$app/forms'
 	export let data
+	import { faker } from '@faker-js/faker'
+	import PollComponent from '../../../../components/PollComponent.svelte'
 </script>
 
 <main class="text-white grid grid-cols-12 py-8">
@@ -45,15 +47,19 @@
 					<Icon class="text-3xl" icon="material-symbols:settings" />
 				</div>
 			</div>
-			<div class="flex gap-8">
+			<div class="flex gap-8 items-center">
 				<span>
-					{'5 Polls'}
+					{data.userProfile?.polls.length} Polls
 				</span>
 				<span>
-					{'52 Followers'}
+					<label for="followers-modal" class="cursor-pointer">
+						{data.userProfile?.followers.length} Followers
+					</label>
 				</span>
 				<span>
-					{'334 Following'}
+					<label for="followings-modal" class="cursor-pointer">
+						{data.userProfile?.following.length} Followings
+					</label>
 				</span>
 			</div>
 			<div>
@@ -66,5 +72,67 @@
 	</div>
 	<div class="col-span-12 grid-col flex flex-col px-32">
 		<hr />
+
+		<section class="max-h-fit flex flex-col gap-4 items-center col-span-7 py-8">
+			{#each data.userProfile?.polls as poll, i}
+				<PollComponent username={data.user?.username} {...poll} />
+			{/each}
+		</section>
 	</div>
 </main>
+
+<!-- Put this part before </body> tag -->
+<input type="checkbox" id="followers-modal" class="modal-toggle" />
+<label for="followers-modal" class="modal cursor-pointer">
+	<label class="modal-box relative  max-w-sm" for="">
+		<h3 class="text-lg font-bold">Followers</h3>
+
+		<div class="py-4 flex flex-col gap-4">
+			{#each data.userProfile?.followers as { follower }}
+				<div class="flex justify-between items-center">
+					<div class="flex items-center gap-2">
+						<div class="avatar">
+							<div class="w-12 rounded-full">
+								<img alt="Ajay Sharma" src={faker.image.avatar()} />
+							</div>
+						</div>
+
+						<div class="flex flex-col">
+							<span class="text-base font-bold">{follower.name}</span>
+							<span class="text-sm">{follower.username}</span>
+						</div>
+					</div>
+					<button class="btn btm-sm">Unfollow</button>
+				</div>
+			{/each}
+		</div>
+	</label>
+</label>
+
+<!-- Put this part before </body> tag -->
+<input type="checkbox" id="followings-modal" class="modal-toggle" />
+<label for="followings-modal" class="modal cursor-pointer">
+	<label class="modal-box relative max-w-sm" for="followings-modal">
+		<h3 class="text-lg font-bold">Followings</h3>
+
+		<div class="py-4 flex flex-col gap-4">
+			{#each data.userProfile?.following as { following }}
+				<div class="flex justify-between items-center">
+					<div class="flex items-center gap-2">
+						<div class="avatar">
+							<div class="w-12 rounded-full">
+								<img alt="Ajay Sharma" src={faker.image.avatar()} />
+							</div>
+						</div>
+
+						<div class="flex flex-col">
+							<span class="text-base font-bold">{following.name}</span>
+							<span class="text-sm">{following.username}</span>
+						</div>
+					</div>
+					<button class="btn btm-sm">Unfollow</button>
+				</div>
+			{/each}
+		</div>
+	</label>
+</label>
