@@ -71,7 +71,7 @@ export const load = async (event) => {
 	if (!userProfile) {
 		return fail(404, { message: 'USER NOT FOUND' })
 	}
-	console.log(userProfile.polls)
+
 	return {
 		userProfile,
 		following: follow.length !== 0
