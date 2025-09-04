@@ -11,10 +11,17 @@
 		<div class="py-4 px-12">
 			<div class="avatar">
 				<div class="w-36 rounded-full">
-					<img
-						alt="Ajay Sharma"
-						src="https://media.licdn.com/dms/image/D4D03AQHae7pP4xol3A/profile-displayphoto-shrink_800_800/0/1672334663749?e=1683763200&v=beta&t=Dn5onPWb_XllML7j57twBleDjdBpNR_THdSkGhsG8_M"
-					/>
+					{#if data.userProfile?.avatar}
+						<img
+							alt={data.userProfile.username}
+							src={data.userProfile.avatar}
+							on:error={() => (event.target.style.display = 'none')}
+						/>
+					{:else}
+						<div class="flex items-center justify-center w-36 h-36 rounded-full bg-base-300 text-base-content text-5xl font-bold">
+							{data.userProfile?.username?.charAt(0)?.toUpperCase() ?? 'U'}
+						</div>
+					{/if}
 				</div>
 			</div>
 		</div>

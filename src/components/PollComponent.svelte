@@ -25,7 +25,13 @@
 		<div class="flex items-center gap-4">
 			<div class="avatar">
 				<div class="w-10 rounded-full">
-					<img alt="Ajay Sharma" src={faker.image.avatar()} />
+					{#if author?.avatar}
+						<img alt={author.username} src={author.avatar} on:error={() => (event.target.style.display = 'none')} />
+					{:else}
+						<div class="flex items-center justify-center w-10 h-10 rounded-full bg-base-300 text-base-content text-xl font-bold">
+							{author?.username?.charAt(0)?.toUpperCase() ?? 'U'}
+						</div>
+					{/if}
 				</div>
 			</div>
 
